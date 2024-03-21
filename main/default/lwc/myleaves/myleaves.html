@@ -1,0 +1,31 @@
+<template>
+    <lightning-card>
+        <lightning-button icon-name="utility:add" variant="border-filler" slot="actions" onclick={handleNewRequest}></lightning-button>
+        <lightning-datatable key-field="Id" data={myLeave} columns={columns} onrowaction={handleAction}></lightning-datatable>
+        <template lwc:if={noRecordFound}>
+            <div class="slds-align_absolute-centre slds-p-around_small slds-text-heading_medium">No Records Found</div>
+        </template>
+    </lightning-card>
+    <template lwc:if={openModal}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+            <div class="slds-modal__header">
+            <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Save and Edit</h1>
+            </div>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <lightning-record-edit-form object-api-name={objectApiName} onsubmit={handleSubmit} record-id={recordId} onsuccess={successHandler} lwc:ref="leaveRequestForm">
+                    <lightning-input-field field-name="Name__c" value={currentUserId}> </lightning-input-field>
+                    <lightning-input-field field-name="From_Date__c"> </lightning-input-field>
+                    <lightning-input-field field-name="To_Date__c"> </lightning-input-field>
+                    <lightning-input-field field-name="Reason__c"> </lightning-input-field>
+                    <div class="slds-var-m-top_medium">
+                        <lightning-button variant="brand" type="submit" label="Save"></lightning-button>
+                        <lightning-button type="cancel" class="slds-m-left_small" label="Cancel" onclick={handleClick}></lightning-button>
+                    </div>
+                </lightning-record-edit-form>
+            </div>
+            </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+</template>
